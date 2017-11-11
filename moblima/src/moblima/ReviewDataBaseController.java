@@ -18,6 +18,7 @@ import java.io.IOException;
 public class ReviewDataBaseController {
 	ArrayList <Review> B = new ArrayList<Review>();
 	int noOfReview=0;//calculate number of reviews
+	int counter = 0;
 	private FileInputStream reviewDataInputFile;
 	private FileOutputStream reviewDataOutputFile;
 	
@@ -85,9 +86,23 @@ public class ReviewDataBaseController {
 	
 	public void addReview(Review newReview) {
 		B.add(newReview);
+		noOfReview++;
+		counter++;
 	}
 	
-	public void write(Review newReview) {
+	public String getReviewFromController(int movieID) { //Return a huge String of reviews (the reviews are added together to form the large string)
+		String tempString = "";
+		for(int pol = 0; pol<B.size(); pol++) {
+			if(B.get(pol).getMovieID() == movieID) {
+				tempString = tempString + "Review" + pol + (B.get(pol).getReview()) + "\n" ;
+				return tempString;
+			} 
+			
+		}
+		return "No Review"; //MovieID cannot be found
+	}
+	
+	public void write() { //Because user would not delete review. Therefore the contents of the review data would not change, except for the new reviews added in. Therefore, we only need to write
 		HSSFWorkbook workbook;
 		try {
 			reviewDataInputFile = new FileInputStream(new File("review.xls"));
@@ -95,13 +110,14 @@ public class ReviewDataBaseController {
 			workbook = new HSSFWorkbook(rws);
 			HSSFSheet sheet = workbook.getSheetAt(0);
 			HSSFCell cell = null;
-			cell = sheet.createRow(noOfReview-1).createCell(0);
-			cell.setCellValue(newReview.getTitle());
-			cell = sheet.getRow(noOfReview-1).createCell(1);
-			cell.setCellValue(newReview.getMovieID());
-			cell = sheet.getRow(noOfReview-1).createCell(2);
-			cell.setCellValue(newReview.getReview());
-			noOfReview++; //Number of entries increase by 1
+			for(int q = (noOfReview-counter-1); q < noOfReview;q++) {
+			cell = sheet.createRow(q).createCell(0);
+			cell.setCellValue(B.get(q).getTitle());
+			cell = sheet.getRow(q).createCell(1);
+			cell.setCellValue(B.get(q).getMovieID());
+			cell = sheet.getRow(q).createCell(2);
+			cell.setCellValue(B.get(q).getReview());
+			}
 			reviewDataInputFile.close();
 			reviewDataOutputFile = new FileOutputStream(new File("review.xls"));
 			workbook.write(reviewDataOutputFile);

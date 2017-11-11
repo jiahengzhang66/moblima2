@@ -14,12 +14,23 @@ public class MainInterface {
 //		test.removeMovie(10010);
 //		test.displayMovies();
 //		test.write();
-//		ReviewDataBaseController testReview = new ReviewDataBaseController();
+		ReviewDataBaseController testReview = new ReviewDataBaseController();
+//		Review teste = new Review("ABC", 10004, "blahblahblah");
+//		Review teste2 = new Review("ABC", 10004, "blahblahblah");
 //		testReview.generateReviewArray();
-//		testReview.displayReview(10009);
+//		testReview.addReview(teste);
+//		testReview.addReview(teste2);
+//		testReview.write();
 		RatingDataBaseController testRating = new RatingDataBaseController();
 		testRating.generateRatingArray();
+//		testRating.printRatings();
+//		testRating.sortRankingRating();
+//		testRating.printRatings();
+		testRating.addRating("My Little Pony: The Movie", 10002, 5.0);
+		testRating.addRating("My Little Pony: The Movie", 10002, 5.0);
 		testRating.printRatings();
+		testRating.write();
+		
 		
 	}
 

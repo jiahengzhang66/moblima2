@@ -66,8 +66,7 @@ public class MovieDataBaseController {
 											sheet.getRow(i).getCell(8).getStringCellValue(),
 											sheet.getRow(i).getCell(9).getStringCellValue(),
 											sheet.getRow(i).getCell(10).getStringCellValue(),
-											sheet.getRow(i).getCell(11).getBooleanCellValue(),
-											sheet.getRow(i).getCell(12).getNumericCellValue());
+											sheet.getRow(i).getCell(11).getBooleanCellValue());
 					A.add(MV);
 					} else {
 						Movies MV = new Movie3D(sheet.getRow(i).getCell(0).getStringCellValue(), 
@@ -81,8 +80,8 @@ public class MovieDataBaseController {
 								sheet.getRow(i).getCell(8).getStringCellValue(),
 								sheet.getRow(i).getCell(9).getStringCellValue(),
 								sheet.getRow(i).getCell(10).getStringCellValue(),
-								sheet.getRow(i).getCell(11).getBooleanCellValue(),
-								sheet.getRow(i).getCell(12).getNumericCellValue());
+								sheet.getRow(i).getCell(11).getBooleanCellValue()
+								);
 						A.add(MV);
 					}
 				
@@ -93,6 +92,24 @@ public class MovieDataBaseController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		public void displayOneMovieDetail(int movieID) { //display details for 1 movie, but the rating and review you have to call it from your side and key in the same movieID again because it doenst make sense for me to initialize 1 more controller in my class
+			for(int lkj = 0; lkj < A.size(); lkj++) {
+				if (movieID == A.get(lkj).getMovieID()) {
+					System.out.println("============================================");
+					System.out.print("Title: " + A.get(lkj).getTitle() + "\n"
+									+"MovieID: " + A.get(lkj).getMovieID() + "\n"
+									+"TypeOfMovie" + A.get(lkj).getTypeOfMovie() + "\n"
+									+"Genre: "+ A.get(lkj).getGenre() + "\n"
+									+"Synopsis: "+A.get(lkj).getSynopsis() + "\n"
+									+"Status: "+ A.get(lkj).getStatus() + "\n"
+									+"Age Rating: "+ A.get(lkj).getAgeRating() + "\n"
+									+"Actors: "+ A.get(lkj).getActors() + "\n"
+									+"Directors: "+ A.get(lkj).getDirector() + "\n"
+									+"BlockBuster: "+ A.get(lkj).getBlockBuster() + "\n");
+				}
+			}
+			
 		}
 		public void displayMovies() {
 			int i = 0;
@@ -107,8 +124,7 @@ public class MovieDataBaseController {
 							+"Age Rating: "+ A.get(i).getAgeRating() + "\n"
 							+"Actors: "+ A.get(i).getActors() + "\n"
 							+"Directors: "+ A.get(i).getDirector() + "\n"
-							+"BlockBuster: "+ A.get(i).getBlockBuster() + "\n"
-							+"Average Rating: "+ A.get(i).getAverageRating() + "\n");
+							+"BlockBuster: "+ A.get(i).getBlockBuster() + "\n");
 			System.out.println("============================================");
 			i++;
 			if(i == A.size()) {
@@ -190,7 +206,6 @@ public class MovieDataBaseController {
 		cell = sheet.getRow(noOfRow-1).createCell(11);
 		cell.setCellValue(((Movies) A.get(z)).getBlockBuster());
 		cell = sheet.getRow(noOfRow-1).createCell(12);
-		cell.setCellValue(((Movies) A.get(z)).getAverageRating());
 		} 
 		movieDataInputFile.close();
 		movieDataOutputFile = new FileOutputStream(new File("movie.xls"));

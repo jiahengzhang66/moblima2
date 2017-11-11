@@ -3,9 +3,9 @@ package moblima;
 public class Movie3D extends Movies{
 	
 	public Movie3D(String title,int movieID,String releaseDate,String typeOfMovie, String genre,String language,
-			String synopsis,String status,String ageRating,String actors, String director, Boolean blockBuster,double totalRating) {
+			String synopsis,String status,String ageRating,String actors, String director, Boolean blockBuster) {
 			super (title,movieID, releaseDate,typeOfMovie, genre, language,
-					synopsis, status, ageRating, actors, director, blockBuster, totalRating);
+					synopsis, status, ageRating, actors, director, blockBuster);
 	}
 	private float movieTypePriceModifier = 3.0f;//default price 
 

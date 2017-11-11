@@ -30,13 +30,9 @@ private String title;
 	
 	private Boolean blockBuster;
 	
-	private double averageRating;
-	
-	private int totalTicketSale;
-	
 	private String typeOfMovie; 
 	
-	public Movies(String title,int movieID,String releaseDate, String typeOfMovie,String genre,String language,String synopsis,String status,String ageRating,String actors, String director, Boolean blockBuster, double averageRating) {
+	public Movies(String title,int movieID,String releaseDate, String typeOfMovie,String genre,String language,String synopsis,String status,String ageRating,String actors, String director, Boolean blockBuster) {
 		this.title = title;
 		this.movieID= movieID;
 		this.releaseDate = releaseDate;
@@ -49,7 +45,6 @@ private String title;
 		this.actors = actors;
 		this.director = director;
 		this.blockBuster = blockBuster;
-		this.averageRating = averageRating;
 		}
 	
 	public String getTitle() {
@@ -97,17 +92,6 @@ private String title;
 		return blockBuster;
 	}
 	
-	public double getAverageRating() {
-		return averageRating;
-	}
-	
-	public int getTotalTicketSale() {
-		return totalTicketSale;
-	}
-	
-	public void setTotalTicketSale(int TTs) {
-		totalTicketSale = TTs;
-	}
 	public void setTitle(String T) {
 		title = T;
 		
@@ -123,6 +107,9 @@ private String title;
 	
 	public void setLanguage(String L) {
 		language = L;
+	}
+	public void setGenre(String kl) {
+		this.genre = kl;
 	}
 	
 	public void setSynopsis(String S) {
@@ -148,13 +135,11 @@ private String title;
 	public void setBlockBuster(Boolean B) {
 		blockBuster = B;
 	}
-	
-	public void setAverageRating(double RA) {
-		averageRating = RA;
-	}
+
 	public String getTypeOfMovie() {
 		return typeOfMovie;
 	}
+	
 	public void setTypeOfMovie(String setTypeOfMovie) {
 		this.typeOfMovie = setTypeOfMovie;
 	}
