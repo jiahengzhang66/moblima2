@@ -67,6 +67,7 @@ public class RatingDataBaseController {
 						checkTimesRated++; //Increase Check Times Rated
 						cumulativeRating += sheet.getRow(x).getCell(2).getNumericCellValue(); //Add the second one to cumulative Rating
 					}
+					
 				averageRating = cumulativeRating/checkTimesRated;
 				}
 				
@@ -147,9 +148,24 @@ public class RatingDataBaseController {
 		    System.out.print("Top 5 Movies In Terms Of Ratings");
 		    System.out.print("===============================================");
 		    for(int x = 0; x<5; x++) {
-		    System.out.print("Title: " + tempList.get(x).getTitle()+"\n"+"Movie ID: " + tempList.get(x).getMovieID() + "\n" + "Average Rating " + tempList.get(x).getRating() + "\n");
+		    	if(tempList.get(x).getTimesRated() != 1) {
+		    System.out.print(x+") "+"Title: " + tempList.get(x).getTitle()+"\n"+"Movie ID: " + tempList.get(x).getMovieID() + "\n" + "Average Rating " + tempList.get(x).getRating() + "\n");
+		    	} else {
+		    	System.out.print(x+") "+"Title: " + tempList.get(x).getTitle()+"\n"+"Movie ID: " + tempList.get(x).getMovieID() + "\n" + "Average Rating " + "NA" + "\n");
+		    	}
 		    }
 		}
+	
+	public boolean moreThanOneRating (int movieID) { //To determine whether Times Rated is more than one
+		for(int poi = 0; poi<R.size(); poi++) {
+			if(R.get(poi).getMovieID() == movieID) {
+				if(R.get(poi).getTimesRated()>1) {
+					return true;
+				} 
+			}
+		} 
+		return false;
+	}
 	
 	public double getRatingFromID (int movieID) { //Method to get rating from movieID from other classes
 		for(int po = 0; po<R.size(); po++) {
@@ -160,7 +176,7 @@ public class RatingDataBaseController {
 		}
 		return 0; //MovieID cannot be found
 	}
-	public void addRating(String movieName, int movieID, double rating) { //This function will autoupdate the average rating for that movie
+	public void addRating(String movieName, int movieID, double rating) { //This function will auto update the average rating for that movie
 		Rating newRating = new Rating(movieName, movieID, rating, 0, 0);
 		allRatingsArray.add(newRating);
 		int ni = 0;

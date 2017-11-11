@@ -143,5 +143,7 @@ private String title;
 	public void setTypeOfMovie(String setTypeOfMovie) {
 		this.typeOfMovie = setTypeOfMovie;
 	}
-	
+	public float getPriceModifier () {
+		return 1.0f;
 	}
+}
