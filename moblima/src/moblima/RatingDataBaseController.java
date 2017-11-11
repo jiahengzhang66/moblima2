@@ -207,10 +207,3 @@ public class RatingDataBaseController {
 	
 }
 
-
-//System.out.println("============================================");
-//System.out.print("Title: " + sheet.getRow(i).getCell(0) + "\n"
-//				+"movieID: " + sheet.getRow(i).getCell(1) + "\n"
-//				+"rating: "+sheet.getRow(i).getCell(2) + "\n"
-//				);
-//System.out.println("============================================");

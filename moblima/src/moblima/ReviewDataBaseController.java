@@ -64,24 +64,24 @@ public class ReviewDataBaseController {
 		}
 	}
 
-	public void displayReview(int movieID) {
-		int i =0;
-		while(B.get(i).getMovieID() != B.size()) {
-			if(B.get(i).getMovieID() == movieID) {
-		
-				System.out.println("============================================");
-				System.out.print(
-						"review: "+B.get(i).getReview() + "\n"
-								);
-				System.out.println("============================================");
-				
-			}
-			i++;
-			if(i == B.size()) {
-				break;
-			}
-			}
-		}
+//	public void displayReview(int movieID) {
+//		int i =0;
+//		while(B.get(i).getMovieID() != B.size()) {
+//			if(B.get(i).getMovieID() == movieID) {
+//		
+//				System.out.println("============================================");
+//				System.out.print(
+//						"review: "+B.get(i).getReview() + "\n"
+//								);
+//				System.out.println("============================================");
+//				
+//			}
+//			i++;
+//			if(i == B.size()) {
+//				break;
+//			}
+//			}
+//		}
 	
 	
 	public void addReview(Review newReview) {

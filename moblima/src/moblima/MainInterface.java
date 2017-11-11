@@ -26,8 +26,8 @@ public class MainInterface {
 //		testRating.printRatings();
 //		testRating.sortRankingRating();
 //		testRating.printRatings();
-		testRating.addRating("My Little Pony: The Movie", 10002, 5.0);
-		testRating.addRating("My Little Pony: The Movie", 10002, 5.0);
+//		testRating.addRating("My Little Pony: The Movie", 10002, 5.0);
+//		testRating.addRating("My Little Pony: The Movie", 10002, 5.0);
 		testRating.printRatings();
 		testRating.write();
 		

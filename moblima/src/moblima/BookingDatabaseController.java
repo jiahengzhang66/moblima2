@@ -1,6 +1,9 @@
 package moblima;
 
-//import java.util.Date;
+import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.lang.StringBuffer;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -14,12 +17,15 @@ import java.io.IOException;
 
 public class BookingDatabaseController {
 	int noOfEntries = 0; //Cannot be double
+	int counter = 0;
 	private FileInputStream bookingDatabaseInputFile;
 	private FileOutputStream bookingDatabaseOutputFile;
+	ArrayList<Booking> bookingList = new ArrayList<Booking>();
 	
 public BookingDatabaseController() {
 	FileInputStream bookingDatabaseInputFile;
 	FileOutputStream bookingDatabaseOutputFile;
+	
 		try{
 			bookingDatabaseInputFile = new FileInputStream(new File("Booking Database.xls"));
 			//bookingDatabaseOutputFile = new FileOutputStream(new File("Booking Database.xls"));
@@ -29,8 +35,19 @@ public BookingDatabaseController() {
 			HSSFWorkbook workbook = new HSSFWorkbook(fs);
 			HSSFSheet sheet = workbook.getSheetAt(0);
 			while(sheet.getRow(noOfEntries) != null) {
+				Booking bookingArrayElement = new Booking((int)sheet.getRow(noOfEntries).getCell(0).getNumericCellValue(),
+														sheet.getRow(noOfEntries).getCell(1).getStringCellValue(),
+														sheet.getRow(noOfEntries).getCell(2).getStringCellValue(),
+														sheet.getRow(noOfEntries).getCell(3).getNumericCellValue(),
+														sheet.getRow(noOfEntries).getCell(4).getStringCellValue(),
+														sheet.getRow(noOfEntries).getCell(5).getStringCellValue(),
+														(int)sheet.getRow(noOfEntries).getCell(6).getNumericCellValue());
+				bookingList.add(bookingArrayElement);
+														
 				noOfEntries++;
+				
 		}
+			
 			bookingDatabaseInputFile.close();
 	}catch (IOException e1) {
 		// TODO Auto-generated catch block
@@ -50,7 +67,7 @@ public BookingDatabaseController() {
 //			e1.printStackTrace();
 //		}
 //	}
-	public int generateBookingID() {
+	private int generateBookingID() {
 		System.out.println(noOfEntries);
 			if(noOfEntries == 0) {
 				return 10000;
@@ -58,29 +75,43 @@ public BookingDatabaseController() {
 				return (10000 + noOfEntries);
 		}
 	}
-	public void printBookingHistory(int numToPrint) {
-		try {
-			bookingDatabaseInputFile = new FileInputStream(new File("Booking Database.xls"));
-			POIFSFileSystem fs = new POIFSFileSystem(bookingDatabaseInputFile);
-			HSSFWorkbook workbook = new HSSFWorkbook(fs);
-			HSSFSheet sheet = workbook.getSheetAt(0);
-			for(int i = (noOfEntries-numToPrint-1); i < noOfEntries; i++) {
-				System.out.println("============================================");
-				System.out.print("Movie: " + sheet.getRow(i).getCell(6) + "\n"
-								+"Booking ID: " + sheet.getRow(i).getCell(0) + "\n"
-								+"Mobile Number: "+sheet.getRow(i).getCell(1) + "\n"
-								+"Email: "+sheet.getRow(i).getCell(2) + "\n"
-								+"Ticket ID: "+sheet.getRow(i).getCell(3) + "\n"
-								+"Cinema Code: "+sheet.getRow(i).getCell(4) + "\n"
-								+"Date and Time of Booking: "+sheet.getRow(i).getCell(5) + "\n");
-				System.out.println("============================================");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private String generateTransactionID(String cinemaCode) {
+		Date timeOfGeneration = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
+		StringBuffer test = new StringBuffer(formatter.format(timeOfGeneration));
+		return cinemaCode+test.toString();
+		
+	}
+	private String generateTicketIDString(int[] jo) {
+		String ticket1 = String.valueOf(jo[0]);
+		String ticket2 = String.valueOf(jo[1]);
+		String ticket3 = String.valueOf(jo[2]);
+		
+		return ticket1 + ", " + ticket2 + ", " + ticket3 + ", ";
+	}
+	public void printBookingHistory(int numToPrint) { //numToPrint is the amount of booking History you want to print (Latest n Bookings)
+		for(int i = (noOfEntries-numToPrint-1); i < noOfEntries; i++) {
+			System.out.println("============================================");
+			System.out.println("Past Booking Information: "+(i+1));
+			System.out.print(
+							"Booking ID: " +bookingList.get(i).getBookingID() + "\n"
+							+"Transaction ID: " + bookingList.get(i).getTransactionID() + "\n"
+							+"Name: " + bookingList.get(i).getName() + "\n"
+							+"Mobile Number: "+ bookingList.get(i).getMobileNum() + "\n"
+							+"Email: "+	bookingList.get(i).getEmail() + "\n"
+							+"Ticket ID: "+ bookingList.get(i).getTicketID() + "\n"
+							+"Movie ID: "+bookingList.get(i).getMovieID() + "\n");
+			System.out.println("============================================");
 		}
 	}
-	public void addBookingIntoDatabase(Booking newBooking) {
+	
+	public void addBooking(String cinemaCode, int[] ticketIDs, String namee, double mobileeNum, String emaile, int movieID) { //Method to call to add a new booking
+		Booking newBooking = new Booking(generateBookingID(), generateTransactionID(cinemaCode), namee, mobileeNum, emaile, generateTicketIDString(ticketIDs), movieID);
+		bookingList.add(newBooking);
+		noOfEntries++;
+		counter++;
+	}
+	public void write() { //Must call at the end of code
 		HSSFWorkbook workbook;
 		try {
 			bookingDatabaseInputFile = new FileInputStream(new File("Booking Database.xls"));
@@ -90,21 +121,22 @@ public BookingDatabaseController() {
 			System.out.println(sheet.getPhysicalNumberOfRows());
 			//System.out.println(sheet.createRow(noOfEntries).createCell((short)0));
 			HSSFCell cell = null;
-			cell = sheet.createRow(noOfEntries).createCell(0);
-			cell.setCellValue(newBooking.getBookingID());
-			cell = sheet.getRow(noOfEntries).createCell(1);
-			cell.setCellValue(newBooking.getMobileNum());
-			cell = sheet.getRow(noOfEntries).createCell(2);
-			cell.setCellValue(newBooking.getEmail());
-			cell = sheet.getRow(noOfEntries).createCell(3);
-			cell.setCellValue(newBooking.getTicketID());
-			cell = sheet.getRow(noOfEntries).createCell(4);
-			cell.setCellValue(newBooking.getCinemaCode());
-			cell = sheet.getRow(noOfEntries).createCell(5);
-			cell.setCellValue(newBooking.getDateTime());
-			cell = sheet.getRow(noOfEntries).createCell(6);
-			cell.setCellValue(newBooking.getMovieID());
-			noOfEntries++; //Number of entries increase by 1
+			for(int x = (noOfEntries - counter - 1); x<noOfEntries; x++) {
+			cell = sheet.createRow(x).createCell(0);
+			cell.setCellValue(bookingList.get(x).getBookingID());
+			cell = sheet.getRow(x).createCell(1);
+			cell.setCellValue(bookingList.get(x).getTransactionID());
+			cell = sheet.getRow(x).createCell(2);
+			cell.setCellValue(bookingList.get(x).getName());
+			cell = sheet.getRow(x).createCell(3);
+			cell.setCellValue(bookingList.get(x).getMobileNum());
+			cell = sheet.getRow(x).createCell(4);
+			cell.setCellValue(bookingList.get(x).getEmail());
+			cell = sheet.getRow(x).createCell(5);
+			cell.setCellValue(bookingList.get(x).getTicketID());
+			cell = sheet.getRow(x).createCell(6);
+			cell.setCellValue(bookingList.get(x).getMovieID());
+			}
 			bookingDatabaseInputFile.close();
 			bookingDatabaseOutputFile = new FileOutputStream(new File("Booking Database.xls"));
 			workbook.write(bookingDatabaseOutputFile);
