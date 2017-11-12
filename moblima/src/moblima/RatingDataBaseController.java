@@ -23,7 +23,14 @@ public class RatingDataBaseController {
 	int counter = 0;
 	private FileInputStream ratingDataInputFile;
 	private FileOutputStream ratingDataOutputFile;
-
+	private static RatingDataBaseController ratingDataBaseController = null;
+	
+	public static RatingDataBaseController getInstance() {
+		if (ratingDataBaseController == null)
+			ratingDataBaseController = new RatingDataBaseController();
+		return ratingDataBaseController;
+	}
+	
 	public  RatingDataBaseController() {//this will read the file first;
 		FileInputStream rateDataInputFile;
 		FileOutputStream rateDataOutputFile;

@@ -21,8 +21,16 @@ public class BookingDatabaseController {
 	private FileInputStream bookingDatabaseInputFile;
 	private FileOutputStream bookingDatabaseOutputFile;
 	ArrayList<Booking> bookingList = new ArrayList<Booking>();
+	private static BookingDatabaseController bookingDatabaseController = null;
+
 	
-public BookingDatabaseController() {
+	public static BookingDatabaseController getInstance() {
+		if (bookingDatabaseController == null)
+			bookingDatabaseController = new BookingDatabaseController();
+		return bookingDatabaseController;
+	}
+	
+	public BookingDatabaseController() {
 	FileInputStream bookingDatabaseInputFile;
 	FileOutputStream bookingDatabaseOutputFile;
 	
@@ -67,6 +75,7 @@ public BookingDatabaseController() {
 //			e1.printStackTrace();
 //		}
 //	}
+
 	private int generateBookingID() {
 		System.out.println(noOfEntries);
 			if(noOfEntries == 0) {

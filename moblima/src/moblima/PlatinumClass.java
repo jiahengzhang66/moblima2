@@ -1,22 +1,26 @@
-package service;
+package moblima;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import moblima.CinemaSeat;
+public class PlatinumClass extends Cinema{
+	private String cinemaType;
+	private float priceModifier;
 
-public class PlatinumServiceImpl implements CinemaService {
-	
-	public void cinemaToCSV(CinemaSeat[] seat, int cinemaId, int year, int month, int date , int time) throws IOException {
-		File file = new File("cinemas" + File.separator + year + File.separator + month + File.separator + date + File.separator + time + cinemaId + ".csv");
-		BufferedWriter pw = new BufferedWriter(new FileWriter(file));
+	public PlatinumClass(int cinemaId) throws IOException {
+		super(cinemaId); 		
+		this.cinemaType = "PlatinumClass";
+		this.priceModifier = 0;
+		}
+
+/*	public void createCSV(int cinemaId) throws IOException {
+		CinemaSeat[] seat = new CinemaSeat[40];
+		BufferedWriter pw = new BufferedWriter(new FileWriter("cinema"+cinemaId+".csv"));
     	StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < 40; i++)//for each row
     	{
+    			seat[i] = new CinemaSeat((i+1));
     			seat[i].setSeatID(i+1);
     			
     	        sb.append(seat[i].getSeatID()+","+seat[i].isAssigned()+","+seat[i].getMovieGoersID()+"\n");
@@ -27,9 +31,9 @@ public class PlatinumServiceImpl implements CinemaService {
     	        System.out.println("done!");
 	}
 	
-	public void printCinemaSeats(int cinemaId, int year, int month, int date, int time) {
+	public void printCinemaSeats(int cinemaId) {
 		CinemaSeat[] tempseat = new CinemaSeat[40];
-		CSVToCinema(tempseat, cinemaId, year, month, date, time);
+		CinemaController.CSVToCinema(tempseat, cinemaId);
 		String[][] temphall = new String[5][17];
 		for (int i=0;i<5;i++) {
 			String letter = null;
@@ -77,30 +81,22 @@ public class PlatinumServiceImpl implements CinemaService {
 			System.out.println(temp);
 		}
 
-	}
+	}*/
 	
-	public void CSVToCinema(CinemaSeat[] seat,int cinemaId,int year, int month, int date, int time) {
-		String csvFile ="cinemas" + File.separator + year + File.separator + month + File.separator + date + File.separator + time + cinemaId + ".csv";
-        String line = "";
-        String cvsSplitBy = ",";
-        String[] scinema;
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
-        	
-        	for(int i = 0; i < 40&&(line = br.readLine()) != null; i++){
-                // use comma as separator
-                scinema = line.split(cvsSplitBy); 
-                seat[i] = new CinemaSeat((i+1));
-                seat[i].setSeatID(Integer.parseInt(scinema[0]));
-                seat[i].setAssigned(Boolean.parseBoolean(scinema[1]));
-        		seat[i].setMovieGoersID(Integer.parseInt(scinema[2]));
-/*              	System.out.println(seat[i].getSeatID() + "," + seat[i].isAssigned() + ","+seat[i].getMovieGoersID());
-               	System.out.println(scinema[0] + "," + scinema[1] + ","+scinema[2]);	   */     		
-               	};
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	public void setPriceModifier(float newPriceModifier) {
+		this.priceModifier = newPriceModifier;
+	};
+	
+	public float getPriceModifier() {
+		return this.priceModifier;
 	}
+
+	public String getCinemaType() {
+		return this.cinemaType;
+	}
+
+	public void setCinemaType(String cinemaType) {
+		this.cinemaType = cinemaType;		
+	};
 
 }

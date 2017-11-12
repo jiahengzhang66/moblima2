@@ -3,8 +3,6 @@ package moblima;
 import java.util.Date;
 import java.util.*;
 
-
-
 public class Movies {
 	
 	

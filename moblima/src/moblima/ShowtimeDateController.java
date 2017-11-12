@@ -17,6 +17,15 @@ public class ShowtimeDateController {
 		private FileInputStream bookingDatabaseInputFile;
 		private FileOutputStream bookingDatabaseOutputFile;
 		
+		private static ShowtimeDateController showtimeDateController = null;
+		
+		public static ShowtimeDateController getInstance() {
+			if (showtimeDateController == null)
+				showtimeDateController = new ShowtimeDateController();
+			return showtimeDateController;
+		}
+		
+		
 	public ShowtimeDateController() {
 		FileInputStream bookingDatabaseInputFile;
 		FileOutputStream bookingDatabaseOutputFile;

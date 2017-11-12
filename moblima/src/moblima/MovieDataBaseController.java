@@ -21,6 +21,7 @@ public class MovieDataBaseController {
 		int noOfRow = 0; //calculate n;
 		private FileInputStream movieDataInputFile;
 		private FileOutputStream movieDataOutputFile;
+		private static MovieDataBaseController movieDatabaseController;
 		
 		public MovieDataBaseController() {//this will read the file first;
 			FileInputStream movieDataInputFile;
@@ -37,6 +38,7 @@ public class MovieDataBaseController {
 					while(sheet.getRow(noOfRow) != null) {
 						noOfRow++;
 				}
+					generateMovieArray();
 					movieDataInputFile.close();
 			}catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -93,6 +95,13 @@ public class MovieDataBaseController {
 				e.printStackTrace();
 			}
 		}
+		
+		public static MovieDataBaseController getInstance() {
+			if (movieDatabaseController == null)
+				movieDatabaseController = new MovieDataBaseController();
+			return movieDatabaseController;
+		}
+		
 		public void displayOneMovieDetail(int movieID) { //display details for 1 movie, but the rating and review you have to call it from your side and key in the same movieID again because it doenst make sense for me to initialize 1 more controller in my class
 			for(int lkj = 0; lkj < A.size(); lkj++) {
 				if (movieID == A.get(lkj).getMovieID()) {
@@ -189,7 +198,7 @@ public class MovieDataBaseController {
 	}
 	
 	public void removeMovie(int MovieID) {//this is to remove something from the data
-		int i=(A.size()-1);
+		int i= (A.size()-1);
 		while (i != -1) {
 			if (A.get(i).getMovieID() == MovieID ) {
 				A.remove(i);

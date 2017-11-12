@@ -20,7 +20,13 @@ public class TicketController {
 		private FileInputStream TicketingDatabaseInputFile;
 		private FileOutputStream TicketingDatabaseOutputFile;
 		
-		
+		private static TicketController ticketController = null;
+	
+		public static TicketController getInstance() {
+			if (ticketController == null)
+				ticketController = new TicketController();
+			return ticketController;
+		}
 		
 		public TicketController() {
 			FileInputStream TicketingDatabaseInputFile;

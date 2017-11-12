@@ -22,6 +22,13 @@ public class ReviewDataBaseController {
 	private FileInputStream reviewDataInputFile;
 	private FileOutputStream reviewDataOutputFile;
 	
+	private static ReviewDataBaseController reviewDataBaseController = null;
+	
+	public static ReviewDataBaseController getInstance() {
+		if (reviewDataBaseController == null)
+			reviewDataBaseController = new ReviewDataBaseController();
+		return reviewDataBaseController;
+	}
 	public  ReviewDataBaseController() {//this will read the file first;
 		FileInputStream reviewDataInputFile;
 		FileOutputStream reviewDataOutputFile;
@@ -37,6 +44,7 @@ public class ReviewDataBaseController {
 				while(sheet.getRow(noOfReview) != null) {
 					noOfReview++;
 			}
+				generateReviewArray();
 				reviewDataInputFile.close();
 		}catch (IOException e1) {
 			// TODO Auto-generated catch block

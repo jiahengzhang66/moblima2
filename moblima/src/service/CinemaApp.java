@@ -1,7 +1,7 @@
 package service;
 
 import java.io.IOException;
-import cinema.CinemaSeat;
+import moblima.CinemaSeat;
 
 public class CinemaApp{
 	private CinemaService service;
