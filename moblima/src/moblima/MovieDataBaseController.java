@@ -155,7 +155,36 @@ public class MovieDataBaseController {
 	}
 	
 	public void addMovie(Movies newMovie) {//add to the arraylist
-			A.add(newMovie);
+			if(newMovie.getTypeOfMovie().equals("Digital")) {
+				MovieDigital newDigitalMovie = new MovieDigital(newMovie.getTitle(),
+																newMovie.getMovieID(),
+																newMovie.getReleaseDate(),
+																newMovie.getTypeOfMovie(),
+																newMovie.getGenre(),
+																newMovie.getLanguage(),
+																newMovie.getSynopsis(),
+																newMovie.getStatus(),
+																newMovie.getAgeRating(),
+																newMovie.getActors(),
+																newMovie.getDirector(),
+																newMovie.getBlockBuster());
+				A.add(newDigitalMovie);
+			} else {
+				Movie3D new3DMovie = new Movie3D(newMovie.getTitle(),
+						newMovie.getMovieID(),
+						newMovie.getReleaseDate(),
+						newMovie.getTypeOfMovie(),
+						newMovie.getGenre(),
+						newMovie.getLanguage(),
+						newMovie.getSynopsis(),
+						newMovie.getStatus(),
+						newMovie.getAgeRating(),
+						newMovie.getActors(),
+						newMovie.getDirector(),
+						newMovie.getBlockBuster());
+				
+				A.add(new3DMovie);
+			}
 			noOfRow++;
 	}
 	

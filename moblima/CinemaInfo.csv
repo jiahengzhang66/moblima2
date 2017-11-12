@@ -1,0 +1,15 @@
+1,10001,PLA,NormalClass,1,0.6
+1,10002,PLB,NormalClass,1,1
+1,10003,PLC,NormalClass,1,1
+1,10004,PLD,GoldClass,1,1
+1,10005,PLE,PlatinumClass,1,1
+2,20001,TBA,NormalClass,1,1
+2,20002,TBB,NormalClass,1,1
+2,20003,TBC,NormalClass,1,1
+2,20004,TBD,GoldClass,1,1
+2,20005,TBE,PlatinumClass,1,1
+3,30001,STA,NormalClass,1,1
+3,30002,STB,NormalClass,1,1
+3,30003,STC,NormalClass,1,1
+3,30004,STD,GoldClass,1,1
+3,30005,STE,PlatinumClass,1,1
