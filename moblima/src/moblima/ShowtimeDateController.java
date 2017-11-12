@@ -40,33 +40,99 @@ public class ShowtimeDateController {
 	}
 	
 	
-	public void printShowTimes(int cineplexNum, ShowtimeDate Showtime) {
+	public void printMovieShowTimes(ShowtimeDate Showtime) {
 		
 		try {
 			bookingDatabaseInputFile = new FileInputStream(new File("Showtime Database.xls"));
 			POIFSFileSystem fs = new POIFSFileSystem(bookingDatabaseInputFile);
 			HSSFWorkbook workbook = new HSSFWorkbook(fs);
 			HSSFSheet sheet = workbook.getSheetAt(0);
+			int[] tempArr = new int [10];
+			int[] sortArr = new int[10];
 			
+	
+			
+			for (int cineplexNum = 1; cineplexNum < 4; cineplexNum++) {
+				for (int day = 0; day <= 31; day++) {
+					for (int a = 0; a < noOfEntries ; a++) {
+						if ((int)sheet.getRow(a).getCell(0).getNumericCellValue() == Showtime.getMovieID()) {
+							if ((int)sheet.getRow(a).getCell(1).getNumericCellValue() == cineplexNum) {
+					
+								if ((int)sheet.getRow(a).getCell(5).getNumericCellValue() == day) {
+									System.out.println("============================================");
+									System.out.println("cineplex number:" + (int)sheet.getRow(a).getCell(1).getNumericCellValue() + " ");
+									System.out.print("Year: " +(int)sheet.getRow(a).getCell(3).getNumericCellValue() + " ");
+									System.out.print("Month: " +(int)sheet.getRow(a).getCell(4).getNumericCellValue() + " ");
+									System.out.print("Day: " +(int)sheet.getRow(a).getCell(5).getNumericCellValue() + " ");
+									System.out.print("Timings: ");
+					
+									for (int b = 6; b < 16; b++) {
+										if (sheet.getRow(a).getCell(b) != null ) {
+											tempArr[b - 6] = (int)sheet.getRow(a).getCell(b).getNumericCellValue();
+										}
+										
+									}
+									sortArr = tempArr.clone();
+									sortArr = sortArray(sortArr);
+									printArray(sortArr);
+									System.out.print("\n");	
+						
+								}
+						
+							}
+			
+						}
+						
+					}	
+				
+				
+			}
+				
+			}
+		}
+			
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void printCineplexShowTimes(ShowtimeDate Showtime) {
+		
+		try {
+			bookingDatabaseInputFile = new FileInputStream(new File("Showtime Database.xls"));
+			POIFSFileSystem fs = new POIFSFileSystem(bookingDatabaseInputFile);
+			HSSFWorkbook workbook = new HSSFWorkbook(fs);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			int[] tempArr = new int [10];
+			int[] sortArr = new int[10];
+			int cineplexNum = Showtime.getCineplexID();
 			for (int a = 0; a < noOfEntries ; a++) {
 				if ((int)sheet.getRow(a).getCell(0).getNumericCellValue() == Showtime.getMovieID()) {
 				if ((int)sheet.getRow(a).getCell(1).getNumericCellValue() == cineplexNum) {
 					System.out.println("============================================");
 					System.out.print("Year: " +(int)sheet.getRow(a).getCell(3).getNumericCellValue() + " ");
-					System.out.print("Month: " +(int)sheet.getRow(a).getCell(4).getNumericCellValue()+ 1 + " ");
+					System.out.print("Month: " +(int)sheet.getRow(a).getCell(4).getNumericCellValue() + " ");
 					System.out.print("Day: " +(int)sheet.getRow(a).getCell(5).getNumericCellValue() + " ");
 					System.out.print("Timings: ");
 					
 					for (int b = 6; b < 16; b++) {
 					if (sheet.getRow(a).getCell(b) != null ) {
-					System.out.print((int)sheet.getRow(a).getCell(b).getNumericCellValue());
-					System.out.print(" ");
+						tempArr[b - 6] = (int)sheet.getRow(a).getCell(b).getNumericCellValue();
 					}
-				}
+					}
+				
+					
+					sortArr = tempArr.clone();
+					sortArr = sortArray(sortArr);
+					printArray(sortArr);
 					System.out.print("\n");
 				}
+					
+								
+				}
+				
 			}
-		}
+		
 		}
 			
 		catch (IOException e) {
@@ -75,9 +141,41 @@ public class ShowtimeDateController {
 		}
 	}
 		
-	
-	public void addShowtimeDateIntoDatabase(ShowtimeDate newShowtime, int cineplexNumber, int cinemanumber, int year, int month, int day) {
+	private static int[] sortArray(int[] nonSortedArray) {
+        int[] sortedArray = new int[nonSortedArray.length];
+        int temp;
+        for (int j = 0; j < nonSortedArray.length - 1; j++) {// added this for loop, think about logic why do we have to add this to make it work
+
+        for (int i = 0; i < nonSortedArray.length - 1; i++) {
+            if (nonSortedArray[i] > nonSortedArray[i + 1]) {
+                temp = nonSortedArray[i];
+                nonSortedArray[i] = nonSortedArray[i + 1];
+                nonSortedArray[i + 1] = temp;
+                sortedArray = nonSortedArray;
+
+            }
+        }
+        }
+        return sortedArray;
+    }
+
+private static void printArray(int arr[])
+{
+    int n = arr.length;
+    for (int i=0; i<n; ++i)
+    	if (arr[i] != 0) {
+        System.out.print(arr[i] + " ");
+    	}
+    System.out.println();
+}
+
+	public void addShowtimeDateIntoDatabase(ShowtimeDate newShowtime) {
 		HSSFWorkbook workbook;
+		int cineplexNumber = newShowtime.getCineplexID();
+		int cinemanumber = newShowtime.getCinemaID();
+		int year = newShowtime.getYear();
+		int month = newShowtime.getMonth();
+		int day = newShowtime.getDay();
 		try {
 			bookingDatabaseInputFile = new FileInputStream(new File("Showtime Database.xls"));
 			POIFSFileSystem fs = new POIFSFileSystem(bookingDatabaseInputFile);
@@ -118,5 +216,80 @@ public class ShowtimeDateController {
 			e.printStackTrace();
 		}	
 	}
+	
+	public void deleteShowtimeDateIntoDatabase(ShowtimeDate Showtime) {
+		try {
+			bookingDatabaseInputFile = new FileInputStream(new File("Showtime Database.xls"));
+			POIFSFileSystem fs = new POIFSFileSystem(bookingDatabaseInputFile);
+			HSSFWorkbook workbook = new HSSFWorkbook(fs);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			int cineplexNumber = Showtime.getCineplexID();
+			int cinemanumber = Showtime.getCinemaID();
+			int year = Showtime.getYear();
+			int month = Showtime.getMonth();
+			int day = Showtime.getDay();
+			int time = Showtime.getTime();
+			for (int a = 0; a < noOfEntries ; a++) {
+				if ((int)sheet.getRow(a).getCell(0).getNumericCellValue() == Showtime.getMovieID()) {
+				if ((int)sheet.getRow(a).getCell(1).getNumericCellValue() == cineplexNumber && (int)sheet.getRow(a).getCell(2).getNumericCellValue()== cinemanumber && (int)sheet.getRow(a).getCell(3).getNumericCellValue() == year && (int)sheet.getRow(a).getCell(4).getNumericCellValue() == month && (int)sheet.getRow(a).getCell(5).getNumericCellValue()==day) {
+					for (int b = 6; b < 16; b++) {
+						if (sheet.getRow(a).getCell(b)!=null) {
+						if (sheet.getRow(a).getCell(b).getNumericCellValue() == time) {
+							sheet.getRow(a).removeCell(sheet.getRow(a).getCell(b));
+							System.out.print("removed");
+							bookingDatabaseInputFile.close();
+							bookingDatabaseOutputFile = new FileOutputStream(new File("Showtime Database.xls"));
+							workbook.write(bookingDatabaseOutputFile);
+							bookingDatabaseOutputFile.close();
+						}
+						}
+					}
+				}
+				}
+			}
+			
+		
 		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
+	public int searchCinemaID(ShowtimeDate Showtime) {
+		try {
+			bookingDatabaseInputFile = new FileInputStream(new File("Showtime Database.xls"));
+			POIFSFileSystem fs = new POIFSFileSystem(bookingDatabaseInputFile);
+			HSSFWorkbook workbook = new HSSFWorkbook(fs);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			for (int a = 0; a < noOfEntries ; a++) {
+				if ((int)sheet.getRow(a).getCell(0).getNumericCellValue() == Showtime.getMovieID()) {
+				if ((int)sheet.getRow(a).getCell(1).getNumericCellValue() == Showtime.getCineplexID()){
+				if ((int) sheet.getRow(a).getCell(3).getNumericCellValue() == Showtime.getYear()) {
+				if ((int)sheet.getRow(a).getCell(4).getNumericCellValue() == Showtime.getMonth()) {
+				if ((int)sheet.getRow(a).getCell(5).getNumericCellValue()==Showtime.getDay()) {
+					
+					for (int b = 6; b < 16; b++) {
+						if (sheet.getRow(a).getCell(b)!=null) {
+						if (sheet.getRow(a).getCell(b).getNumericCellValue() == Showtime.getTime()) {
+					return (int)sheet.getRow(a).getCell(2).getNumericCellValue();
+							}
+						}
+						}
+				}
+				}
+					}
+				}
+				}
+			}
+		
+		
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+}
